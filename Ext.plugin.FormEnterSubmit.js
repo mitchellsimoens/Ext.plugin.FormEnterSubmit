@@ -1,19 +1,21 @@
 Ext.define("Ext.plugin.FormEnterSubmit", {
-	extend: "Ext.AbstractPlugin",
-	alias: "plugin.formentersubmit",
+	extend   : "Ext.AbstractPlugin",
+	alias    : "plugin.formentersubmit",
 
 	submitFn : Ext.emptyFn,
 
-	init: function(form) {
+	init : function(form) {
 		var me = this,
 			items = form.items;
 
 		items.each(function(item) {
-			item.on("specialkey", me.handleSubmitFunc, me);
+			if (item.noSpecialKey !== true) {
+				item.on("specialkey", me.handleSubmitFunc, me);
+			}
 		}, me);
 	},
 
-	handleSubmitFunc: function(field, e) {
+	handleSubmitFunc : function(field, e) {
 		var me = this;
 		if (e.getKey() == e.ENTER) {
 			Ext.bind(me.submitFn, me.cmp)();
